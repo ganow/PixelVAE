@@ -52,7 +52,7 @@ args = parser.parse_args()
 
 assert args.decoder_algorithm in ['cond_z_bias', 'upsample_z_conv']
 
-print args
+print(args)
 
 
 
@@ -68,7 +68,7 @@ OUT_DIR = OUT_DIR_PREFIX + "/num_layers_new3_" + str(args.num_pixel_cnn_layer) +
 
 if not os.path.isdir(OUT_DIR):
    os.makedirs(OUT_DIR)
-   print "Created directory {}".format(OUT_DIR)
+   print("Created directory {}".format(OUT_DIR))
 
 def floatX(num):
     if theano.config.floatX == 'float32':
@@ -283,7 +283,7 @@ def Decoder_no_blind(latents, images):
 
     X_v, X_h = next_stacks(images_with_latent, images_with_latent, N_CHANNELS + DIM_1, "Dec.PixInput", filter_size = 7, hstack = "hstack_a", residual = False)
 
-    for i in xrange(PIXEL_CNN_LAYERS):
+    for i in range(PIXEL_CNN_LAYERS):
         X_v, X_h = next_stacks(X_v, X_h,  DIM_PIX, "Dec.Pix"+str(i+1), filter_size = PIXEL_CNN_FILTER_SIZE)
 
 
@@ -305,7 +305,7 @@ def Decoder_no_blind_conditioned_on_z(latents, images):
                 hstack = "hstack_a", residual = False
                 )
 
-    for i in xrange(PIXEL_CNN_LAYERS):
+    for i in range(PIXEL_CNN_LAYERS):
         X_v, X_h = next_stacks_gated(X_v, X_h, DIM_PIX, "Dec.Pix"+str(i+1), global_conditioning = latents, filter_size = PIXEL_CNN_FILTER_SIZE)
 
 
@@ -422,9 +422,9 @@ def generate_and_save_samples(tag):
     next_sample = samples.copy()
 
     t0 = time.time()
-    for j in xrange(HEIGHT):
-        for k in xrange(WIDTH):
-            for i in xrange(N_CHANNELS):
+    for j in range(HEIGHT):
+        for k in range(WIDTH):
+            for i in range(N_CHANNELS):
                 samples_p_value = sample_fn(latents, next_sample)
                 next_sample[:, i, j, k] = binarize(samples_p_value)[:, i, j, k]
                 samples[:, i, j, k] = samples_p_value[:, i, j, k]

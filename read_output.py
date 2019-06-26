@@ -5,8 +5,8 @@ INTERVAL = 1000
 LABELS = ['train cost', 'train kl1', 'train kl2']
 
 for label in LABELS:
-    print "=============================="
-    print label
+    print("==============================")
+    print(label)
 
     vals = []
 
@@ -16,5 +16,7 @@ for label in LABELS:
             if label in line:
                 vals.append(line[label])
 
-    for i in xrange(0, len(vals), INTERVAL):
-        print "{}-{}\t{}".format(i, min(len(vals), i+INTERVAL), np.mean(vals[i:i+INTERVAL]))
+    for i in range(0, len(vals), INTERVAL):
+        print(
+            "{}-{}\t{}".format(i, min(len(vals), i + INTERVAL),
+            np.mean(vals[i:(i + INTERVAL)])))

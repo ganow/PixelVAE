@@ -43,7 +43,7 @@ if SETTINGS == 'mnist_256':
     # one_level uses EncFull/DecFull for the bottom (and only) level
     MODE = 'one_level'
 
-    # Whether to treat pixel inputs to the model as real-valued (as in the 
+    # Whether to treat pixel inputs to the model as real-valued (as in the
     # original PixelCNN) or discrete (gets better likelihoods).
     EMBED_INPUTS = True
 
@@ -277,7 +277,7 @@ elif SETTINGS=='64px_big_onelevel':
     # one_level uses EncFull/DecFull for the bottom (and only) level
     MODE = 'one_level'
 
-    # Whether to treat pixel inputs to the model as real-valued (as in the 
+    # Whether to treat pixel inputs to the model as real-valued (as in the
     # original PixelCNN) or discrete (gets better likelihoods).
     EMBED_INPUTS = True
 
@@ -339,7 +339,7 @@ elif DATASET == 'imagenet_64':
 
 lib.print_model_settings(locals().copy())
 
-DEVICES = ['/gpu:{}'.format(i) for i in xrange(N_GPUS)]
+DEVICES = ['/gpu:{}'.format(i) for i in range(N_GPUS)]
 
 lib.ops.conv2d.enable_default_weightnorm()
 lib.ops.linear.enable_default_weightnorm()
@@ -704,7 +704,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
                 sig = 0.5 * (tf.nn.softsign(logsig)+1)
                 logsig = tf.log(sig)
                 return mu, logsig, sig
-         
+
             def clamp_logsig_and_sig(logsig, sig):
                 # Early during training (see BETA_ITERS), stop sigma from going too low
                 floor = 1. - tf.minimum(1., tf.cast(total_iters, 'float32') / BETA_ITERS)
@@ -751,7 +751,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
 
                 kl_cost_1 = tf.reduce_mean(
                     lib.ops.kl_unit_gaussian.kl_unit_gaussian(
-                        mu1, 
+                        mu1,
                         logsig1,
                         sig1
                     )
@@ -815,7 +815,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
 
                 kl_cost_1 = tf.reduce_mean(
                     lib.ops.kl_gaussian_gaussian.kl_gaussian_gaussian(
-                        mu1, 
+                        mu1,
                         logsig1,
                         sig1,
                         mu1_prior,
@@ -826,7 +826,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
 
                 kl_cost_2 = tf.reduce_mean(
                     lib.ops.kl_unit_gaussian.kl_unit_gaussian(
-                        mu2, 
+                        mu2,
                         logsig2,
                         sig2
                     )
@@ -878,26 +878,26 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
                 imsave(save_path, img)
 
             latents1_copied = np.zeros((64, LATENT_DIM_2), dtype='float32')
-            for i in xrange(8):
+            for i in range(8):
                 latents1_copied[i::8] = sample_fn_latents1
 
             samples = np.zeros(
-                (64, N_CHANNELS, HEIGHT, WIDTH), 
+                (64, N_CHANNELS, HEIGHT, WIDTH),
                 dtype='int32'
             )
 
-            print "Generating samples"
-            for y in xrange(HEIGHT):
-                for x in xrange(WIDTH):
-                    for ch in xrange(N_CHANNELS):
+            print("Generating samples")
+            for y in range(HEIGHT):
+                for x in range(WIDTH):
+                    for ch in range(N_CHANNELS):
                         next_sample = dec1_fn(latents1_copied, samples, ch, y, x)
                         samples[:,ch,y,x] = next_sample
 
-            print "Saving samples"
+            print("Saving samples")
             color_grid_vis(
-                samples, 
-                8, 
-                8, 
+                samples,
+                8,
+                8,
                 'samples_{}.png'.format(tag)
             )
 
@@ -920,7 +920,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
                                           y_sym: _y,
                                           x_sym: _x,
                                           total_iters: 99999,
-                                          bn_is_training: False, 
+                                          bn_is_training: False,
                                           bn_stats_iter: 0})
 
         N_SAMPLES = BATCH_SIZE
@@ -948,19 +948,19 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
 
         def generate_and_save_samples(tag):
             # Draw z1 autoregressively using z2 and epsilon1
-            print "Generating z1"
+            print("Generating z1")
             z1 = np.zeros((N_SAMPLES, LATENT_DIM_1, LATENTS1_HEIGHT, LATENTS1_WIDTH), dtype='float32')
-            for y in xrange(LATENTS1_HEIGHT):
-              for x in xrange(LATENTS1_WIDTH):
+            for y in range(LATENTS1_HEIGHT):
+              for x in range(LATENTS1_WIDTH):
                 z1_prior_mu, z1_prior_logsig = dec2_fn(z2, z1)
                 z1[:,:,y,x] = z1_prior_mu[:,:,y,x] + np.exp(z1_prior_logsig[:,:,y,x]) * epsilon_1[:,:,y,x]
 
             # Draw pixels (the images) autoregressively using z1 and epsilon_x
-            print "Generating pixels"
+            print("Generating pixels")
             pixels = np.zeros((N_SAMPLES, N_CHANNELS, HEIGHT, WIDTH)).astype('int32')
-            for y in xrange(HEIGHT):
-                for x in xrange(WIDTH):
-                    for ch in xrange(N_CHANNELS):
+            for y in range(HEIGHT):
+                for x in range(WIDTH):
+                    for ch in range(N_CHANNELS):
                         # start_time = time.time()
                         logits = dec1_logits_fn(z1, pixels, ch, y, x)
                         probs = np.exp(logits - np.max(logits, axis=-1, keepdims=True))
@@ -981,12 +981,12 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
                     img[j*h:j*h+h, i*w:i*w+w, :] = x
                 imsave(save_path, img)
 
-            print "Saving"
+            print("Saving")
             rows = int(np.sqrt(N_SAMPLES))
             while N_SAMPLES % rows != 0:
                 rows -= 1
             color_grid_vis(
-                pixels, rows, N_SAMPLES/rows, 
+                pixels, rows, N_SAMPLES/rows,
                 'samples_{}.png'.format(tag)
             )
 
@@ -994,15 +994,15 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
 
     if MODE == 'one_level':
         prints=[
-            ('alpha', alpha), 
-            ('reconst', reconst_cost), 
+            ('alpha', alpha),
+            ('reconst', reconst_cost),
             ('kl1', kl_cost_1)
         ]
     elif MODE == 'two_level':
         prints=[
             ('alpha1', alpha1),
             ('alpha2', alpha2),
-            ('reconst', reconst_cost), 
+            ('reconst', reconst_cost),
             ('kl1', kl_cost_1),
             ('kl2', kl_cost_2),
         ]
