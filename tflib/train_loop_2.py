@@ -132,10 +132,10 @@ def train_loop(
         dataset_iters = 0
         while dataset_iters < _vars['iteration']:
             try:
-                train_generator.next()
+                train_generator.__next__()
             except StopIteration:
                 train_generator = train_data()
-                train_generator.next()
+                train_generator.__next__()
             dataset_iters += 1
     else:
         print("Initializing variables...")
@@ -210,11 +210,11 @@ def train_loop(
 
         data_load_start_time = time.time()
         try:
-            input_vals = train_generator.next()
+            input_vals = train_generator.__next__()
         except StopIteration:
             train_generator = train_data()
-            input_vals = train_generator.next()
-            train_generator.next()
+            input_vals = train_generator.__next__()
+            train_generator.__next__()
             _vars['epoch'] += 1
         data_load_time = time.time() - data_load_start_time
 
@@ -237,10 +237,10 @@ def train_loop(
                     _train_gen = train_data()
                     for i in range(bn_stats_iters):
                         try:
-                            bn_stats_fn([np.int32(_vars['iteration'])] + list(_train_gen.next()), i)
+                            bn_stats_fn([np.int32(_vars['iteration'])] + list(_train_gen.__next__()), i)
                         except StopIteration:
                             _train_gen = train_data()
-                            bn_stats_fn([np.int32(_vars['iteration'])] + list(_train_gen.next()), i)
+                            bn_stats_fn([np.int32(_vars['iteration'])] + list(_train_gen.__next__()), i)
 
             else:
 
@@ -248,10 +248,10 @@ def train_loop(
                     _train_gen = train_data()
                     for i in range(bn_stats_iters):
                         try:
-                            bn_stats_fn(list(_train_gen.next()), i)
+                            bn_stats_fn(list(_train_gen.__next__()), i)
                         except StopIteration:
                             _train_gen = train_data()
-                            bn_stats_fn(list(_train_gen.next()), i)
+                            bn_stats_fn(list(_train_gen.__next__()), i)
 
 
             if (test_data is not None) and _vars['iteration'] % test_every == (test_every-1):
