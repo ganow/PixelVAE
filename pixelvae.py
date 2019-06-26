@@ -34,8 +34,8 @@ import imageio
 import time
 import functools
 
-DATASET = 'mnist_256' # mnist_256, lsun_32, lsun_64, imagenet_64
-SETTINGS = 'mnist_256' # mnist_256, 32px_small, 32px_big, 64px_small, 64px_big
+DATASET = 'imagenet_64' # mnist_256, lsun_32, lsun_64, imagenet_64
+SETTINGS = '64px_big_onelevel' # mnist_256, 32px_small, 32px_big, 64px_small, 64px_big
 
 if SETTINGS == 'mnist_256':
     # two_level uses Enc1/Dec1 for the bottom level, Enc2/Dec2 for the top level
