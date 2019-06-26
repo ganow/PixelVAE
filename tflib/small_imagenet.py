@@ -1,6 +1,7 @@
 import numpy as np
 import scipy.misc
 import time
+import pathlib
 
 def make_generator(path, n_files, batch_size):
     epoch_count = [1]
@@ -17,11 +18,11 @@ def make_generator(path, n_files, batch_size):
                 yield (images,)
     return get_epoch
 
-def load(batch_size):
+def load(batch_size, imagenet_dir=(pathlib.Path.home() / 'data/imagenet/small')):
     return (
-        make_generator('/home/ishaan/data/imagenet64/train_64x64', 1281149, batch_size),
+        make_generator((imagenet_dir.expanduser() / 'train_64x64').as_posix(), 1281149, batch_size),
         # make_generator('/home/ishaan/data/imagenet64/valid_64x64', 10000, batch_size)# shorter validation set for debugging
-        make_generator('/home/ishaan/data/imagenet64/valid_64x64', 49999, batch_size)
+        make_generator((imagenet_dir.expanduser() / 'valid_64x64').as_posix(), 49999, batch_size)
     )
 
 if __name__ == '__main__':
