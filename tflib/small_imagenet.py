@@ -1,5 +1,5 @@
 import numpy as np
-import scipy.misc
+import imageio
 import time
 import pathlib
 
@@ -12,7 +12,7 @@ def make_generator(path, n_files, batch_size):
         random_state.shuffle(files)
         epoch_count[0] += 1
         for n, i in enumerate(files):
-            image = scipy.misc.imread("{}/{}.png".format(path, str(i+1).zfill(len(str(n_files)))))
+            image = imageio.imread("{}/{}.png".format(path, str(i+1).zfill(len(str(n_files)))))
             images[n % batch_size] = image.transpose(2,0,1)
             if n > 0 and n % batch_size == 0:
                 yield (images,)

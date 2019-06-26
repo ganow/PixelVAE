@@ -29,8 +29,7 @@ import tflib.small_imagenet
 
 import numpy as np
 import tensorflow as tf
-import scipy.misc
-from scipy.misc import imsave
+import imageio
 
 import time
 import functools
@@ -875,7 +874,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
                     j = n/nw
                     i = n%nw
                     img[j*h:j*h+h, i*w:i*w+w, :] = x
-                imsave(save_path, img)
+                imageio.imwrite(save_path, img)
 
             latents1_copied = np.zeros((64, LATENT_DIM_2), dtype='float32')
             for i in range(8):
@@ -979,7 +978,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
                     j = n/nw
                     i = n%nw
                     img[j*h:j*h+h, i*w:i*w+w, :] = x
-                imsave(save_path, img)
+                imageio.imwrite(save_path, img)
 
             print("Saving")
             rows = int(np.sqrt(N_SAMPLES))

@@ -29,7 +29,7 @@ import numpy as np
 import theano
 import theano.tensor as T
 from theano.sandbox.rng_mrg import MRG_RandomStreams as RandomStreams
-import scipy.misc
+from PIL import Image
 import lasagne
 import pickle
 
@@ -407,7 +407,8 @@ def generate_and_save_samples(tag):
         images = images.transpose(1,2,0,3)
         images = images.reshape((10*28, 10*28))
 
-        image = scipy.misc.toimage(images, cmin=0.0, cmax=1.0)
+        # image = scipy.misc.toimage(images, cmin=0.0, cmax=1.0)
+        image = Image.fromarray((images * 255).astype(np.uint8))
         image.save('{}/{}_{}.jpg'.format(OUT_DIR, filename, new_tag))
 
     latents = np.random.normal(size=(100, LATENT_DIM))

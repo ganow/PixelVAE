@@ -10,7 +10,7 @@ from fuel.streams import DataStream
 
 PATH = '/home/ishaan/data/lsun_bedrooms_2727000_64px.hdf5'
 
-from scipy.misc import imsave
+import imageio
 def color_grid_vis(X, nh, nw, save_path):
     # from github.com/Newmu
     X = X.transpose(0,2,3,1)
@@ -20,7 +20,7 @@ def color_grid_vis(X, nh, nw, save_path):
         j = n/nw
         i = n%nw
         img[j*h:j*h+h, i*w:i*w+w, :] = x
-    imsave(save_path, img)
+    imageio.imwrite(save_path, img)
 
 
 def _make_stream(stream, bs, downsample):
@@ -40,12 +40,12 @@ def _make_stream(stream, bs, downsample):
                     result[i] += b
                     result[i] += c
                     result[i] += d
-                    result[i] /= 4                    
+                    result[i] /= 4
                     # print (a+b+c+d).dtype
                     # raise Exception()
                     # result[i] =  (a+b+c+d)/4
                 else:
-                    result[i] =  img[:64, :64, :]                
+                    result[i] =  img[:64, :64, :]
             # print "warning overfit mode"
             # color_grid_vis(result.transpose(0,3,1,2)[:,:3,:,:], 2, 2, 'reals.png')
             # while True:
