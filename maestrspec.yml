@@ -1,0 +1,12 @@
+name: pixel-vae
+container: ganow/pixel-vae:0.1
+directory_info:
+  resultsdir: $HOME/assets/pixel-vae
+  client_resultsdir: $PWD/results
+server_info:
+  server: solifugae
+mounts:
+- $HOME/data:$HOME/data:ro
+- $HOME/assets/pixel-vae:$HOME/results
+hardware:
+  gpu: 4

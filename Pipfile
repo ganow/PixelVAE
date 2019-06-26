@@ -1,0 +1,33 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+python-language-server = {extras = ["all"],version = "*"}
+
+[packages]
+Pillow = "*"
+numpy = "*"
+scipy = "*"
+imageio = "*"
+ipython = "*"
+matplotlib = "*"
+ruamel-yaml = "*"
+jupyterthemes = "*"
+jupyter = "*"
+ipykernel = "*"
+seaborn = "*"
+jupyterlab = "*"
+ipywidgets = "*"
+jupyter-contrib-nbextensions = "*"
+tqdm = "*"
+tensorflow = {version = "==1.14.0",sys_platform = "== 'darwin'"}
+tensorflow-gpu = {version = "==1.14.0",sys_platform = "== 'linux'"}
+fuel = {git = "git://github.com/mila-udem/fuel.git"}
+
+[requires]
+python_version = "3.6"
+
+[pipenv]
+allow_prereleases = true
