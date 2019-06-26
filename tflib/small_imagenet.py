@@ -21,7 +21,6 @@ def make_generator(path, n_files, batch_size):
 def load(batch_size, imagenet_dir=(pathlib.Path.home() / 'data/imagenet/small')):
     return (
         make_generator((imagenet_dir.expanduser() / 'train_64x64').as_posix(), 1281149, batch_size),
-        # make_generator('/home/ishaan/data/imagenet64/valid_64x64', 10000, batch_size)# shorter validation set for debugging
         make_generator((imagenet_dir.expanduser() / 'valid_64x64').as_posix(), 49999, batch_size)
     )
 

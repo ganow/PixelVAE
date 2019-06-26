@@ -156,7 +156,7 @@ def train_loop(
 
         train_output_entries[0].append(entry)
 
-        to_print = entry.items()
+        to_print = list(entry.items())
         to_print.extend(extra_things_to_print)
         print_str = ""
         for k,v in to_print:
